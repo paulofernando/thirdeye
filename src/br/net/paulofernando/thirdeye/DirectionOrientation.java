@@ -1,6 +1,5 @@
 package br.net.paulofernando.thirdeye;
 
-import android.content.Context;
 import android.graphics.Point;
 import android.os.Vibrator;
 
