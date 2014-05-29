@@ -1,4 +1,0 @@
-thirdeye
-========
-
-ThirdEye

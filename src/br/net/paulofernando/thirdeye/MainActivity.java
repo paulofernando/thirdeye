@@ -1,5 +1,6 @@
 package br.net.paulofernando.thirdeye;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.hardware.Sensor;
@@ -8,13 +9,14 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.v7.app.ActionBarActivity;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends ActionBarActivity implements SensorEventListener {
+import com.example.thirdeye.R;
+
+public class MainActivity extends Activity implements SensorEventListener {
 
 	private ImageView image;
 	private float currentDegree = 0f;
@@ -54,7 +56,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public void onSensorChanged(SensorEvent event) {
 		// get the angle around the z-axis rotated
 		float degree = Math.round(event.values[0]);
-		tvHeading.setText("Heading: " + Float.toString(degree) + " degrees");
+		tvHeading.setText("Heading: " + Float.toString(degree) + " degreesc 54s54f545s");
 				
 		directionOrientation.conduct(degree);
 		
