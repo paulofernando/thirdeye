@@ -2,7 +2,7 @@ package br.net.paulofernando.thirdeye;
 
 public class RouteUtilities {
 
-	public static float smallestDifferenceDegrees(float current, float point) {
+	public static double smallestDifferenceDegrees(double current, double point) {
 		if(current >= point) {
 			if((current - point) <= 180) {
 				return current - point; 
