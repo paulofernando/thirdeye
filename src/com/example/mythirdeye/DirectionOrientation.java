@@ -28,6 +28,7 @@ public class DirectionOrientation {
 	/** Next point to conduct the user */
 	private int nextPoint = 0;
 	
+	
 	LocationResult locationResult = new LocationResult(){
 	    @Override
 	    public void gotLocation(Location location){
@@ -36,6 +37,15 @@ public class DirectionOrientation {
 	        currentLon = location.getLongitude();
 	    }
 	};
+	
+
+	public float getDistanceToTheNextPoint() {
+		float[] result = new float[2];
+		Location.distanceBetween(currentLat, currentLon, 
+				route[nextPoint].getLatitude(), route[nextPoint].getLongitude(), result);
+		
+		return result[0];
+	}
 	
 	/**
 	 * Instatiates a new direction controller

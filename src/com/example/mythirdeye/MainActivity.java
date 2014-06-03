@@ -24,7 +24,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	private SensorManager mSensorManager;
 
-	TextView tvHeading;
+	private TextView tvHeading, tvDistance;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		image = (ImageView) findViewById(R.id.imageViewCompass);
 		tvHeading = (TextView) findViewById(R.id.tvHeading);
+		tvDistance = (TextView) findViewById(R.id.tvDistance);
+		
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		
 		directionOrientation = new DirectionOrientation(pointToGo, (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE), this);
@@ -55,7 +57,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		// get the angle around the z-axis rotated
 		float degree = Math.round(event.values[0]);
 		tvHeading.setText("Heading: " + Float.toString(degree) + " degrees");
-				
+		tvDistance.setText("Distance: " + directionOrientation.getDistanceToTheNextPoint() + " meters");
 		directionOrientation.conduct(degree);
 		
 		// create a rotation animation (reverse turn degree degrees)

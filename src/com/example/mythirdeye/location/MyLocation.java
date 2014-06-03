@@ -31,6 +31,7 @@ public class MyLocation {
 		this.context = context;
 		
 		locationResult = result;
+		
 		if (locationManager == null)
 			locationManager = (LocationManager) context
 					.getSystemService(Context.LOCATION_SERVICE);
@@ -163,4 +164,5 @@ public class MyLocation {
 	public static abstract class LocationResult {
 		public abstract void gotLocation(Location location);
 	}
+	
 }
