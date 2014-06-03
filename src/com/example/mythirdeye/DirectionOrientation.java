@@ -47,6 +47,7 @@ public class DirectionOrientation {
 		
 		MyLocation myLocation = new MyLocation();
 		myLocation.getLocation(context, locationResult);
+		myLocation.addProximityAlert(route[0].getLatitude(), route[0].getLongitude());
 	}
 	
 	/**
@@ -55,9 +56,9 @@ public class DirectionOrientation {
 	 */
 	public void conduct(float currentDegree) {
 		if(nextPoint < route.length) { //If the end of the route is not reached yet
-			if(RouteUtilities.smallestDifferenceDegrees(currentDegree, getDegreesToGo(route[0])) < LEVEL_ONE) {
+			if(RouteUtilities.smallestDifferenceDegrees(currentDegree, getDegreesToGo(route[nextPoint])) < LEVEL_ONE) {
 				vibrator.vibrate(VIBRATION_ONE);
-			} else if(RouteUtilities.smallestDifferenceDegrees(currentDegree, getDegreesToGo(route[0])) < LEVEL_TWO) {
+			} else if(RouteUtilities.smallestDifferenceDegrees(currentDegree, getDegreesToGo(route[nextPoint])) < LEVEL_TWO) {
 				vibrator.vibrate(VIBRATION_TWO);
 			}
 		}
@@ -79,9 +80,7 @@ public class DirectionOrientation {
 		
 		double y = Math.sin(dlonr) * Math.cos(lat2r);
 		double x = Math.cos(lat1r) * Math.sin(lat2r) - Math.sin(lat1r) * Math.cos(lat2r)* Math.cos(dlonr);
-		
-		Log.i("Degree to go", String.valueOf(Math.atan2(y, x) / g2r));
-		
+				
 		//compute bearning and convert back to degrees:
 		return Math.abs(Math.atan2(y, x) / g2r);
 	}
