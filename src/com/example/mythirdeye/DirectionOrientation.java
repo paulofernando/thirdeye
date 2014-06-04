@@ -28,7 +28,6 @@ public class DirectionOrientation {
 	/** Next point to conduct the user */
 	private int nextPoint = 0;
 	
-	
 	LocationResult locationResult = new LocationResult(){
 	    @Override
 	    public void gotLocation(Location location){
@@ -51,13 +50,14 @@ public class DirectionOrientation {
 	 * Instatiates a new direction controller
 	 * @param route The route to direct the person
 	 */
-	public DirectionOrientation(Place[] route, Vibrator vibrator, Context context) {
+	public DirectionOrientation(Place[] route, Vibrator vibrator, final Context context) {
 		this.route = route;		
 		this.vibrator = vibrator;
 		
-		MyLocation myLocation = new MyLocation();
+		final MyLocation myLocation = new MyLocation();
 		myLocation.getLocation(context, locationResult);
 		myLocation.addProximityAlert(route[0].getLatitude(), route[0].getLongitude());
+
 	}
 	
 	/**
@@ -92,6 +92,7 @@ public class DirectionOrientation {
 		double x = Math.cos(lat1r) * Math.sin(lat2r) - Math.sin(lat1r) * Math.cos(lat2r)* Math.cos(dlonr);
 				
 		//compute bearning and convert back to degrees:
+		//Log.i("degrees", String.valueOf(Math.abs(Math.atan2(y, x) / g2r)));
 		return Math.abs(Math.atan2(y, x) / g2r);
 	}
 	

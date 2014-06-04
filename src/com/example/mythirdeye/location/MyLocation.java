@@ -14,12 +14,10 @@ import android.os.Bundle;
 
 public class MyLocation {
 	
-	private Timer timer1;
 	private LocationManager locationManager;
 	private LocationResult locationResult;
 	private boolean gps_enabled = false;
-	private boolean network_enabled = false;
-
+	
 	private static final long POINT_RADIUS = 10; // in Meters
 	private static final long PROX_ALERT_EXPIRATION = -1;
 	private static final String PROX_ALERT_INTENT = "com.javacodegeeks.android.lbs.ProximityAlert";
@@ -42,15 +40,9 @@ public class MyLocation {
 					.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		} catch (Exception ex) {
 		}
-
-		try {
-			network_enabled = locationManager
-					.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-		} catch (Exception ex) {
-		}
-
+		
 		// don't start listeners if no provider is enabled
-		if (!gps_enabled && !network_enabled)
+		if (!gps_enabled)
 			return false;
 
 		if (gps_enabled) {
@@ -58,14 +50,6 @@ public class MyLocation {
 					LocationManager.GPS_PROVIDER, 0, 0, locationListenerGps);
 		}
 
-		if (network_enabled) {
-			locationManager.requestLocationUpdates(
-					LocationManager.NETWORK_PROVIDER, 0, 0,
-					locationListenerNetwork);
-		}
-
-		timer1 = new Timer();
-		timer1.schedule(new GetLastLocation(), 2000);
 		return true;
 	}
 
@@ -92,72 +76,26 @@ public class MyLocation {
 
 	LocationListener locationListenerGps = new LocationListener() {
 		public void onLocationChanged(Location location) {
-			timer1.cancel();
-			locationResult.gotLocation(location);
-			locationManager.removeUpdates(this);
-			locationManager.removeUpdates(locationListenerNetwork);
+			locationResult.gotLocation(location);			
 		}
 
-		public void onProviderDisabled(String provider) {
-		}
-
-		public void onProviderEnabled(String provider) {
-		}
-
-		public void onStatusChanged(String provider, int status, Bundle extras) {
-		}
+		public void onProviderDisabled(String provider) {}
+		public void onProviderEnabled(String provider) {}
+		public void onStatusChanged(String provider, int status, Bundle extras) {}
 	};
-
-	LocationListener locationListenerNetwork = new LocationListener() {
-		public void onLocationChanged(Location location) {
-			timer1.cancel();
-			locationResult.gotLocation(location);
-			locationManager.removeUpdates(this);
-			locationManager.removeUpdates(locationListenerGps);
-		}
-
-		public void onProviderDisabled(String provider) {
-		}
-
-		public void onProviderEnabled(String provider) {
-		}
-
-		public void onStatusChanged(String provider, int status, Bundle extras) {
-		}
-	};
-
+	
 	class GetLastLocation extends TimerTask {
 		@Override
-		public void run() {
-			locationManager.removeUpdates(locationListenerGps);
-			locationManager.removeUpdates(locationListenerNetwork);
-
-			Location net_loc = null, gps_loc = null;
+		public void run() {			
+			Location gps_loc = null;
 			if (gps_enabled)
 				gps_loc = locationManager
 						.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			if (network_enabled)
-				net_loc = locationManager
-						.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
+			
 			// if there are both values use the latest one
-			if (gps_loc != null && net_loc != null) {
-				if (gps_loc.getTime() > net_loc.getTime())
-					locationResult.gotLocation(gps_loc);
-				else
-					locationResult.gotLocation(net_loc);
-				return;
-			}
-
 			if (gps_loc != null) {
 				locationResult.gotLocation(gps_loc);
-				return;
 			}
-			if (net_loc != null) {
-				locationResult.gotLocation(net_loc);
-				return;
-			}
-			locationResult.gotLocation(null);
 		}
 	}
 
