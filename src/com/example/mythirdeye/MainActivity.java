@@ -1,5 +1,8 @@
 package com.example.mythirdeye;
 
+import com.example.mythirdeye.location.DirectionOrientation;
+import com.example.mythirdeye.location.Place;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
@@ -19,6 +22,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private ImageView image;
 	private float currentDegree = 0f;
 	private Place[] pointToGo = new Place[]{new Place(-12.997861d, -38.513874d)};
+	
 
 	private DirectionOrientation directionOrientation;
 	

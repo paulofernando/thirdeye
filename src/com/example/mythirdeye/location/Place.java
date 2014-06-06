@@ -1,4 +1,4 @@
-package com.example.mythirdeye;
+package com.example.mythirdeye.location;
 
 public class Place {
 

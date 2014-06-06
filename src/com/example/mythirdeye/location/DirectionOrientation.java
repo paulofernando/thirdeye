@@ -1,12 +1,12 @@
-package com.example.mythirdeye;
+package com.example.mythirdeye.location;
+
+import com.example.mythirdeye.location.MyLocation.LocationResult;
 
 import android.content.Context;
 import android.location.Location;
 import android.os.Vibrator;
 import android.util.Log;
 
-import com.example.mythirdeye.location.MyLocation;
-import com.example.mythirdeye.location.MyLocation.LocationResult;
 
 public class DirectionOrientation {
 
@@ -75,25 +75,7 @@ public class DirectionOrientation {
 	}
 	
 	public double getDegreesToGo(Place placeToGo) {
-		return convertLatAndLonToDegrees(placeToGo.getLatitude(), placeToGo.getLongitude());
-	}
-	
-	private double convertLatAndLonToDegrees(double latitudeToGo, double longitudeToGo) {
-		
-		//convert to radians:
-		double g2r = Math.PI/180;
-		double lat1r = currentLat * g2r;
-		double lat2r = latitudeToGo * g2r;
-		double lon1r = currentLon * g2r;
-		double lon2r = longitudeToGo * g2r;
-		double dlonr = lon2r - lon1r;
-		
-		double y = Math.sin(dlonr) * Math.cos(lat2r);
-		double x = Math.cos(lat1r) * Math.sin(lat2r) - Math.sin(lat1r) * Math.cos(lat2r)* Math.cos(dlonr);
-				
-		//compute bearning and convert back to degrees:
-		//Log.i("degrees", String.valueOf(Math.abs(Math.atan2(y, x) / g2r)));
-		return Math.abs(Math.atan2(y, x) / g2r);
-	}
+		return RouteUtilities.bearing(currentLat, currentLon, placeToGo.getLatitude(), placeToGo.getLongitude());
+	}	
 	
 }
