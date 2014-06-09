@@ -1,6 +1,7 @@
 package com.example.mythirdeye.location;
 
 import com.example.mythirdeye.location.MyLocation.LocationResult;
+import com.example.mythirdeye.location.listeners.PointListener;
 
 import android.content.Context;
 import android.location.Location;
@@ -8,7 +9,7 @@ import android.os.Vibrator;
 import android.util.Log;
 
 
-public class DirectionOrientation {
+public class DirectionOrientation implements PointListener {
 
 	/* Levels of vibration */
 	private final int LEVEL_ONE = 10;
@@ -27,6 +28,9 @@ public class DirectionOrientation {
 	
 	/** Next point to conduct the user */
 	private int nextPoint = 0;
+	
+	/** Protection for the application doesn't call the pointReached() many times */
+	private boolean intoThePoint = false;
 	
 	LocationResult locationResult = new LocationResult(){
 	    @Override
@@ -56,7 +60,7 @@ public class DirectionOrientation {
 		
 		final MyLocation myLocation = new MyLocation();
 		myLocation.getLocation(context, locationResult);
-		myLocation.addProximityAlert(route[0].getLatitude(), route[0].getLongitude());
+		myLocation.addProximityAlert(route[0].getLatitude(), route[0].getLongitude(), this);
 
 	}
 	
@@ -77,5 +81,30 @@ public class DirectionOrientation {
 	public double getDegreesToGo(Place placeToGo) {
 		return RouteUtilities.bearing(currentLat, currentLon, placeToGo.getLatitude(), placeToGo.getLongitude());
 	}	
+	
+	@Override
+	public void pointReached() {
+		if(!intoThePoint) {
+			intoThePoint = true;
+			if(nextPoint < route.length) {
+				nextPoint++;
+			} else {
+				vibrator.cancel();
+			}
+		}
+	}
+
+	@Override
+	public void pointExited() {
+		intoThePoint = false;
+	}
+
+	public int getNextPoint() {
+		return nextPoint;
+	}
+
+	public Place[] getRoute() {
+		return route;
+	}
 	
 }

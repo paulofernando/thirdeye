@@ -1,11 +1,7 @@
 package com.example.mythirdeye;
 
-import com.example.mythirdeye.location.DirectionOrientation;
-import com.example.mythirdeye.location.Place;
-
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,18 +13,21 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.mythirdeye.location.DirectionOrientation;
+import com.example.mythirdeye.location.Place;
+
 public class MainActivity extends Activity implements SensorEventListener {
 
 	private ImageView image;
 	private float currentDegree = 0f;
-	private Place[] pointToGo = new Place[]{new Place(-12.997861d, -38.513874d)};
+	private Place[] pointToGo = new Place[]{new Place(-12.996292d, -38.513183d), new Place(-12.450679d, -41.588954d)};
 	
 
 	private DirectionOrientation directionOrientation;
 	
 	private SensorManager mSensorManager;
 
-	private TextView tvHeading, tvDistance;
+	private TextView tvHeading, tvPoints, tvDistance;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +36,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		image = (ImageView) findViewById(R.id.imageViewCompass);
 		tvHeading = (TextView) findViewById(R.id.tvHeading);
+		tvPoints = (TextView) findViewById(R.id.tvPoints);
 		tvDistance = (TextView) findViewById(R.id.tvDistance);
 		
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -61,7 +61,13 @@ public class MainActivity extends Activity implements SensorEventListener {
 		// get the angle around the z-axis rotated
 		float degree = Math.round(event.values[0]);
 		tvHeading.setText("Heading: " + Float.toString(degree) + " degrees");
-		tvDistance.setText("Distance: " + directionOrientation.getDistanceToTheNextPoint() + " meters");
+		
+		int nextPoint = directionOrientation.getNextPoint();
+		tvPoints.setText("Point[" + nextPoint + "] -> (" + 
+				Double.toString(directionOrientation.getRoute()[nextPoint].getLatitude()) + ", " +
+				Double.toString(directionOrientation.getRoute()[nextPoint].getLongitude()) + ")");		
+		
+		tvDistance.setText("Distance: " + directionOrientation.getDistanceToTheNextPoint() + " meters");		
 		directionOrientation.conduct(degree);
 		
 		// create a rotation animation (reverse turn degree degrees)

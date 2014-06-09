@@ -1,6 +1,5 @@
 package com.example.mythirdeye.location;
 
-import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.PendingIntent;
@@ -53,7 +52,7 @@ public class MyLocation {
 		return true;
 	}
 
-	public void addProximityAlert(double latitude, double longitude) {
+	public void addProximityAlert(double latitude, double longitude, DirectionOrientation directionOrientation) {
 		Intent intent = new Intent(PROX_ALERT_INTENT);
 		PendingIntent proximityIntent = PendingIntent.getBroadcast(context, 0,
 				intent, 0);
@@ -71,7 +70,7 @@ public class MyLocation {
 				);
 
 		IntentFilter filter = new IntentFilter(PROX_ALERT_INTENT);
-		context.registerReceiver(new ProximityIntentReceiver(), filter);
+		context.registerReceiver(new ProximityIntentReceiver(directionOrientation), filter);
 	}
 
 	LocationListener locationListenerGps = new LocationListener() {

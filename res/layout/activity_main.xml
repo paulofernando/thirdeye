@@ -13,13 +13,22 @@
         android:text="Heading: 0.0" />
 
     <TextView
+        android:id="@+id/tvPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:layout_below="@id/tvHeading"
+        android:layout_marginTop="20dp"/>
+    
+    <TextView
         android:id="@+id/tvDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/tvHeading"
+        android:layout_below="@id/tvPoints"
         android:text="Distance: 0.0" />
     
     <ImageView
