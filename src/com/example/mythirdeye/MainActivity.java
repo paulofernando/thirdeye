@@ -20,8 +20,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 	private ImageView image;
 	private float currentDegree = 0f;
-	private Place[] pointToGo = new Place[]{new Place(-12.996292d, -38.513183d), new Place(-12.450679d, -41.588954d)};
-	
+	private Place[] pointToGo = new Place[]{new Place(-12.997819d, -38.514176d), new Place(-13.002774d, -38.506880d)};
+
 
 	private DirectionOrientation directionOrientation;
 	
@@ -85,4 +85,15 @@ public class MainActivity extends Activity implements SensorEventListener {
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
+	
+	@Override
+	/**
+	 * Finishes the application when back button is pressed
+	 */
+	public void onBackPressed() {
+		this.finish();
+		int pid = android.os.Process.myPid();
+        android.os.Process.killProcess(pid);		 
+	}
+	
 }

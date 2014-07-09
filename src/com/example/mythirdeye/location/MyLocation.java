@@ -17,7 +17,7 @@ public class MyLocation {
 	private LocationResult locationResult;
 	private boolean gps_enabled = false;
 	
-	private static final long POINT_RADIUS = 10; // in Meters
+	private static final long POINT_RADIUS = 10; // in meters
 	private static final long PROX_ALERT_EXPIRATION = -1;
 	private static final String PROX_ALERT_INTENT = "com.javacodegeeks.android.lbs.ProximityAlert";
 	
@@ -25,8 +25,7 @@ public class MyLocation {
 	
 	public boolean getLocation(Context context, LocationResult result) {
 		
-		this.context = context;
-		
+		this.context = context;		
 		locationResult = result;
 		
 		if (locationManager == null)
@@ -91,7 +90,6 @@ public class MyLocation {
 				gps_loc = locationManager
 						.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 			
-			// if there are both values use the latest one
 			if (gps_loc != null) {
 				locationResult.gotLocation(gps_loc);
 			}

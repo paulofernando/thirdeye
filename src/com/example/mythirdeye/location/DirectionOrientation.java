@@ -20,10 +20,8 @@ public class DirectionOrientation implements PointListener {
 	private final int VIBRATION_TWO = 100;
 	
 	/** The route to direct the person */
-	private Place[] route;
-	
-	private Vibrator vibrator;
-	
+	private Place[] route;	
+	private Vibrator vibrator;	
 	double currentLat, currentLon;
 	
 	/** Next point to conduct the user */
@@ -40,18 +38,10 @@ public class DirectionOrientation implements PointListener {
 	        currentLon = location.getLongitude();
 	    }
 	};
-	
 
-	public float getDistanceToTheNextPoint() {
-		float[] result = new float[2];
-		Location.distanceBetween(currentLat, currentLon, 
-				route[nextPoint].getLatitude(), route[nextPoint].getLongitude(), result);
-		
-		return result[0];
-	}
 	
 	/**
-	 * Instatiates a new direction controller
+	 * Instantiates a new direction controller
 	 * @param route The route to direct the person
 	 */
 	public DirectionOrientation(Place[] route, Vibrator vibrator, final Context context) {
@@ -61,7 +51,17 @@ public class DirectionOrientation implements PointListener {
 		final MyLocation myLocation = new MyLocation();
 		myLocation.getLocation(context, locationResult);
 		myLocation.addProximityAlert(route[0].getLatitude(), route[0].getLongitude(), this);
-
+	}
+	
+	/**
+	 * Retrieves the distance between the current point and the next point.
+	 * @return The distance between the current and the next point
+	 */
+	public float getDistanceToTheNextPoint() {
+		float[] result = new float[2];
+		Location.distanceBetween(currentLat, currentLon, 
+				route[nextPoint].getLatitude(), route[nextPoint].getLongitude(), result);		
+		return result[0];
 	}
 	
 	/**
@@ -83,6 +83,7 @@ public class DirectionOrientation implements PointListener {
 	}	
 	
 	@Override
+	/** When the mobile device reaches a specific point	 */
 	public void pointReached() {
 		if(!intoThePoint) {
 			intoThePoint = true;
@@ -95,6 +96,7 @@ public class DirectionOrientation implements PointListener {
 	}
 
 	@Override
+	/** When the mobile device exits a specific point */
 	public void pointExited() {
 		intoThePoint = false;
 	}

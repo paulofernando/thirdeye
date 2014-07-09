@@ -2,6 +2,12 @@ package com.example.mythirdeye.location;
 
 public class RouteUtilities {
 
+	/**
+	 * Degrees to the next point
+	 * @param current Current position
+	 * @param point Next position
+	 * @return degrees to the next point
+	 */
 	public static double smallestDifferenceDegrees(double current, double point) {
 		if(current >= point) {
 			if((current - point) <= 180) {
